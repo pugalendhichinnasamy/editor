@@ -18,20 +18,10 @@ const editor = new EditorJS({
 
 function savePost() {
     editor.save().then((outputData) => {
-        const post = { content: JSON.stringify(outputData) };
-        fetch('posts.json')
-            .then(response => response.json())
-            .then(posts => {
-                posts.push(post);
-                return fetch('posts.json', {
-                    method: 'PUT',
-                    body: JSON.stringify(posts),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-            })
-            .then(() => alert("Post saved!"));
+        const posts = JSON.parse(localStorage.getItem('posts')) || [];
+        posts.push(outputData);
+        localStorage.setItem('posts', JSON.stringify(posts));
+        alert("Post saved!");
     }).catch((error) => {
         console.log('Saving failed: ', error);
     });
