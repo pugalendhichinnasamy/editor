@@ -3,34 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor.js Online</title>
+    <title>Editor.js on GitHub Pages</title>
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/paragraph@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background: #f4f4f4;
             margin: 0;
             padding: 0;
-            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
         .container {
-            max-width: 800px;
-            margin: 50px auto;
-            background: #fff;
+            width: 60%;
+            background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
             text-align: center;
-            font-size: 24px;
+            color: #333;
         }
         #editorjs {
+            min-height: 300px;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             border-radius: 5px;
             background: #fff;
         }
@@ -39,11 +40,11 @@
             margin: 20px auto;
             padding: 10px 20px;
             font-size: 16px;
-            color: #fff;
             background: #007bff;
+            color: white;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
+            border-radius: 5px;
         }
         .save-btn:hover {
             background: #0056b3;
@@ -51,31 +52,29 @@
     </style>
 </head>
 <body>
+
     <div class="container">
-        <h1>Editor.js Online</h1>
+        <h1>Editor.js in GitHub Pages</h1>
         <div id="editorjs"></div>
-        <button class="save-btn" onclick="saveContent()">Save Content</button>
+        <button class="save-btn" onclick="saveData()">Save Content</button>
     </div>
 
     <script>
         const editor = new EditorJS({
             holder: 'editorjs',
-            tools: {
-                header: Header,
-                list: List,
-                paragraph: Paragraph,
-                image: ImageTool
-            },
+            autofocus: true,
+            tools: {}  // You can add plugins here
         });
 
-        function saveContent() {
+        function saveData() {
             editor.save().then((outputData) => {
-                console.log('Saved Data:', outputData);
-                alert('Content Saved! Check Console for Output');
+                console.log("Saved Data: ", outputData);
+                alert("Content saved! Check the console for details.");
             }).catch((error) => {
-                console.log('Saving failed:', error);
+                console.error("Saving failed: ", error);
             });
         }
     </script>
+
 </body>
 </html>
