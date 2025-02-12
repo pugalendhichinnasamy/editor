@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor.js on GitHub Pages</title>
+    <title>Advanced Editor.js - GitHub Pages</title>
+    
+    <!-- Editor.js Core -->
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    
+    <!-- Plugins -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #f4f4f4;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
         }
         .container {
             width: 60%;
@@ -29,7 +40,7 @@
             color: #333;
         }
         #editorjs {
-            min-height: 300px;
+            min-height: 400px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -54,7 +65,7 @@
 <body>
 
     <div class="container">
-        <h1>Editor.js in GitHub Pages</h1>
+        <h1>Editor.js with Full Plugins</h1>
         <div id="editorjs"></div>
         <button class="save-btn" onclick="saveData()">Save Content</button>
     </div>
@@ -63,7 +74,57 @@
         const editor = new EditorJS({
             holder: 'editorjs',
             autofocus: true,
-            tools: {}  // You can add plugins here
+            tools: {
+                header: {
+                    class: Header,
+                    inlineToolbar: true,
+                    config: {
+                        placeholder: 'Enter a heading',
+                    },
+                },
+                list: {
+                    class: List,
+                    inlineToolbar: true,
+                },
+                image: {
+                    class: ImageTool,
+                    config: {
+                        endpoints: {
+                            byFile: 'https://your-upload-server.com/upload', // Replace with actual upload server if needed
+                            byUrl: 'https://your-upload-server.com/fetchUrl',
+                        }
+                    }
+                },
+                quote: {
+                    class: Quote,
+                    inlineToolbar: true,
+                    config: {
+                        quotePlaceholder: 'Enter a quote',
+                        captionPlaceholder: 'Author',
+                    },
+                },
+                table: {
+                    class: Table,
+                    inlineToolbar: true,
+                },
+                code: {
+                    class: CodeTool,
+                },
+                checklist: {
+                    class: Checklist,
+                    inlineToolbar: true,
+                },
+                embed: {
+                    class: Embed,
+                    inlineToolbar: false,
+                    config: {
+                        services: {
+                            youtube: true,
+                            twitter: true,
+                        }
+                    }
+                }
+            }
         });
 
         function saveData() {
