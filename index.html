@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor.js on GitHub Pages</title>
+    <title>Editor.js with All Plugins</title>
+    
+    <!-- Editor.js Core -->
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+    
+    <!-- Plugins -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #f4f4f4;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
         }
         .container {
             width: 60%;
@@ -29,7 +40,7 @@
             color: #333;
         }
         #editorjs {
-            min-height: 300px;
+            min-height: 400px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -54,26 +65,89 @@
 <body>
 
     <div class="container">
-        <h1>Editor.js in GitHub Pages</h1>
+        <h1>Editor.js with All Plugins</h1>
         <div id="editorjs"></div>
         <button class="save-btn" onclick="saveData()">Save Content</button>
     </div>
 
     <script>
-        const editor = new EditorJS({
-            holder: 'editorjs',
-            autofocus: true,
-            tools: {}  // You can add plugins here
-        });
-
-        function saveData() {
-            editor.save().then((outputData) => {
-                console.log("Saved Data: ", outputData);
-                alert("Content saved! Check the console for details.");
-            }).catch((error) => {
-                console.error("Saving failed: ", error);
+        document.addEventListener("DOMContentLoaded", function () {
+            const editor = new EditorJS({
+                holder: 'editorjs',
+                autofocus: true,
+                tools: {
+                    paragraph: {
+                        class: window.Paragraph, // ✅ Fix: Ensure default paragraph tool exists
+                        inlineToolbar: true,
+                    },
+                    header: {
+                        class: window.Header, 
+                        inlineToolbar: true,
+                        config: { placeholder: 'Enter a heading' },
+                    },
+                    list: {
+                        class: window.List,
+                        inlineToolbar: true,
+                    },
+                    image: {
+                        class: window.ImageTool,
+                        config: {
+                            uploader: {
+                                uploadByFile(file) {
+                                    return new Promise((resolve) => {
+                                        setTimeout(() => {
+                                            resolve({
+                                                success: 1,
+                                                file: {
+                                                    url: "https://via.placeholder.com/400"
+                                                }
+                                            });
+                                        }, 1000);
+                                    });
+                                }
+                            }
+                        }
+                    },
+                    quote: {
+                        class: window.Quote,
+                        inlineToolbar: true,
+                        config: { quotePlaceholder: 'Enter a quote', captionPlaceholder: 'Author' },
+                    },
+                    table: {
+                        class: window.Table,
+                        inlineToolbar: true,
+                    },
+                    code: {
+                        class: window.CodeTool,
+                    },
+                    checklist: {
+                        class: window.Checklist,
+                        inlineToolbar: true,
+                    },
+                    embed: {
+                        class: window.Embed,
+                        inlineToolbar: false,
+                        config: {
+                            services: {
+                                youtube: true,
+                                twitter: true,
+                            }
+                        }
+                    }
+                }
             });
-        }
+
+            function saveData() {
+                editor.save().then((outputData) => {
+                    console.log("Saved Data: ", outputData);
+                    alert("Content saved! Check the console for details.");
+                }).catch((error) => {
+                    console.error("Saving failed: ", error);
+                });
+            }
+            
+            window.saveData = saveData;
+        });
     </script>
 
 </body>
