@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor.js with Full Plugins</title>
+    <title>Editor.js with All Plugins</title>
     
     <!-- Editor.js Core -->
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
@@ -17,7 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
-
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -71,81 +71,83 @@
     </div>
 
     <script>
-        const editor = new EditorJS({
-            holder: 'editorjs',
-            autofocus: true,
-            tools: {
-                header: {
-                    class: window.Header, // Fixed issue: `window.` ensures it is recognized
-                    inlineToolbar: true,
-                    config: {
-                        placeholder: 'Enter a heading',
+        document.addEventListener("DOMContentLoaded", function () {
+            const editor = new EditorJS({
+                holder: 'editorjs',
+                autofocus: true,
+                tools: {
+                    paragraph: {
+                        class: window.Paragraph, // ✅ Fix: Ensure default paragraph tool exists
+                        inlineToolbar: true,
                     },
-                },
-                list: {
-                    class: window.List,
-                    inlineToolbar: true,
-                },
-                image: {
-                    class: window.ImageTool,
-                    config: {
-                        // ✅ Dummy image uploader (to avoid errors)
-                        uploader: {
-                            uploadByFile(file) {
-                                return new Promise((resolve) => {
-                                    setTimeout(() => {
-                                        resolve({
-                                            success: 1,
-                                            file: {
-                                                url: "https://via.placeholder.com/400" // Placeholder image
-                                            }
-                                        });
-                                    }, 1000);
-                                });
+                    header: {
+                        class: window.Header, 
+                        inlineToolbar: true,
+                        config: { placeholder: 'Enter a heading' },
+                    },
+                    list: {
+                        class: window.List,
+                        inlineToolbar: true,
+                    },
+                    image: {
+                        class: window.ImageTool,
+                        config: {
+                            uploader: {
+                                uploadByFile(file) {
+                                    return new Promise((resolve) => {
+                                        setTimeout(() => {
+                                            resolve({
+                                                success: 1,
+                                                file: {
+                                                    url: "https://via.placeholder.com/400"
+                                                }
+                                            });
+                                        }, 1000);
+                                    });
+                                }
+                            }
+                        }
+                    },
+                    quote: {
+                        class: window.Quote,
+                        inlineToolbar: true,
+                        config: { quotePlaceholder: 'Enter a quote', captionPlaceholder: 'Author' },
+                    },
+                    table: {
+                        class: window.Table,
+                        inlineToolbar: true,
+                    },
+                    code: {
+                        class: window.CodeTool,
+                    },
+                    checklist: {
+                        class: window.Checklist,
+                        inlineToolbar: true,
+                    },
+                    embed: {
+                        class: window.Embed,
+                        inlineToolbar: false,
+                        config: {
+                            services: {
+                                youtube: true,
+                                twitter: true,
                             }
                         }
                     }
-                },
-                quote: {
-                    class: window.Quote,
-                    inlineToolbar: true,
-                    config: {
-                        quotePlaceholder: 'Enter a quote',
-                        captionPlaceholder: 'Author',
-                    },
-                },
-                table: {
-                    class: window.Table,
-                    inlineToolbar: true,
-                },
-                code: {
-                    class: window.CodeTool,
-                },
-                checklist: {
-                    class: window.Checklist,
-                    inlineToolbar: true,
-                },
-                embed: {
-                    class: window.Embed,
-                    inlineToolbar: false,
-                    config: {
-                        services: {
-                            youtube: true,
-                            twitter: true,
-                        }
-                    }
                 }
-            }
-        });
-
-        function saveData() {
-            editor.save().then((outputData) => {
-                console.log("Saved Data: ", outputData);
-                alert("Content saved! Check the console for details.");
-            }).catch((error) => {
-                console.error("Saving failed: ", error);
             });
-        }
+
+            function saveData() {
+                editor.save().then((outputData) => {
+                    console.log("Saved Data: ", outputData);
+                    alert("Content saved! Check the console for details.");
+                }).catch((error) => {
+                    console.error("Saving failed: ", error);
+                });
+            }
+            
+            window.saveData = saveData;
+        });
     </script>
 
 </body>
