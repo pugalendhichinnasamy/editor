@@ -72,13 +72,90 @@
             autofocus: true,
           
 
- tools: {
 
-
-
-
-                
-            }  // You can add plugins here
+            
+            // You can add plugins here
+            tools: {
+    header: {
+        class: Header,
+        inlineToolbar: true,
+        config: {
+            placeholder: 'Enter a heading',
+        },
+    },
+    list: {
+        class: List,
+        inlineToolbar: true,
+    },
+    image: {
+        class: ImageTool,
+        config: {
+            uploader: {
+                uploadByFile(file) {
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            resolve({
+                                success: 1,
+                                file: {
+                                    url: "https://via.placeholder.com/400"  // Replace with actual image URL
+                                }
+                            });
+                        }, 1000);
+                    });
+                }
+            }
+        }
+    },
+    quote: {
+        class: Quote,
+        inlineToolbar: true,
+        config: {
+            quotePlaceholder: 'Enter a quote',
+            captionPlaceholder: 'Author',
+        },
+    },
+    table: {
+        class: Table,
+        inlineToolbar: true,
+        config: {
+            rows: 2,
+            cols: 3,
+        },
+    },
+    code: {
+        class: CodeTool,
+    },
+    checklist: {
+        class: Checklist,
+        inlineToolbar: true,
+    },
+    embed: {
+        class: Embed,
+        inlineToolbar: false,
+        config: {
+            services: {
+                youtube: true,
+                twitter: true,
+            }
+        }
+    }
+}
+  
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         });
 
         function saveData() {
