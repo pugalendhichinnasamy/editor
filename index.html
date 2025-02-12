@@ -3,20 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor.js - Full Features</title>
-    
+    <title>Editor.js with Plugins</title>
+
     <!-- Editor.js Core -->
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
-    
+
     <!-- Plugins -->
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
 
     <style>
         body {
@@ -40,7 +33,7 @@
             color: #333;
         }
         #editorjs {
-            min-height: 300px;
+            min-height: 400px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -65,94 +58,31 @@
 <body>
 
     <div class="container">
-        <h1>Editor.js - GitHub Pages</h1>
+        <h1>Editor.js with Plugins</h1>
         <div id="editorjs"></div>
         <button class="save-btn" onclick="saveData()">Save Content</button>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const editor = new EditorJS({
-                holder: 'editorjs',
-                autofocus: true,
-                tools: {
-                    header: {
-                        class: Header,
-                        inlineToolbar: true,
-                        config: {
-                            placeholder: 'Enter a heading',
-                        },
-                    },
-                    list: {
-                        class: List,
-                        inlineToolbar: true,
-                    },
-                    image: {
-                        class: ImageTool,
-                        config: {
-                            uploader: {
-                                uploadByFile(file) {
-                                    return new Promise((resolve) => {
-                                        setTimeout(() => {
-                                            resolve({
-                                                success: 1,
-                                                file: {
-                                                    url: "https://via.placeholder.com/400"
-                                                }
-                                            });
-                                        }, 1000);
-                                    });
-                                }
-                            }
-                        }
-                    },
-                    quote: {
-                        class: Quote,
-                        inlineToolbar: true,
-                        config: {
-                            quotePlaceholder: 'Enter a quote',
-                            captionPlaceholder: 'Author',
-                        },
-                    },
-                    table: {
-                        class: Table,
-                        inlineToolbar: true,
-                        config: {
-                            rows: 2,
-                            cols: 3,
-                        },
-                    },
-                    code: {
-                        class: CodeTool,
-                    },
-                    checklist: {
-                        class: Checklist,
-                        inlineToolbar: true,
-                    },
-                    embed: {
-                        class: Embed,
-                        inlineToolbar: false,
-                        config: {
-                            services: {
-                                youtube: true,
-                                twitter: true,
-                            }
-                        }
-                    }
+        const editor = new EditorJS({
+            holder: 'editorjs',
+            autofocus: true,
+            tools: {
+                list: {
+                    class: List,  // ✅ Fixed the error
+                    inlineToolbar: true,
                 }
-            });
-
-            function saveData() {
-                editor.save().then((outputData) => {
-                    console.log("Saved Data: ", outputData);
-                    alert("Content saved! Check the console for details.");
-                }).catch((error) => {
-                    console.error("Saving failed: ", error);
-                });
             }
-
-            window.saveData = saveData;
         });
+
+        function saveData() {
+            editor.save().then((outputData) => {
+                console.log("Saved Data: ", outputData);
+                alert("Content saved! Check the console for details.");
+            }).catch((error) => {
+                console.error("Saving failed: ", error);
+            });
+        }
     </script>
 
 </body>
